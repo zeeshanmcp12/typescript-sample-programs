@@ -1,6 +1,7 @@
 var guestList = ["Amjad", "Sir Zia", "Furqan"];
 var invitation = "I will be glad if you can join me at dinner tomorrow!";
 var endMessage = "Thank you!";
+console.log("Invitations will be sent out to ".concat(guestList, "\n"));
 for (var index = 0; index < guestList.length; index++) {
     var element = guestList[index];
     console.log("Salam ".concat(element, ", ").concat(invitation, ". ").concat(endMessage));

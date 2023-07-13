@@ -2,6 +2,8 @@ const guestList = ["Amjad", "Sir Zia", "Furqan"]
 const invitation = "I will be glad if you can join me at dinner tomorrow!"
 const endMessage = "Thank you!"
 
+console.log(`Invitations will be sent out to ${guestList}\n`)
+
 for (let index = 0; index < guestList.length; index++) {
     const element = guestList[index];
 
@@ -20,8 +22,8 @@ for (let index = 0; index < guestList.length; index++) {
     console.log('==============================================================')
 }
 console.log('\n==============================================================')
-console.log("******* Good News! We've got some more friends *******")
-console.log('==============================================================')
+console.log("******* Good News! We've got some more guests *******")
+console.log('==============================================================\n')
 
 // Append element to the beginning of an array
 guestList.unshift("Sarim")

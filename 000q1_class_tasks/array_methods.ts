@@ -45,10 +45,11 @@ console.log(newArrReturned, anotherArr);
 console.log(alphabets.indexOf('b'))
 
 // includes method
-// console.log(alphabets.join(",").includes('c'));
+console.log(combinedArr.includes('c'));
 
-let newNumbers: number[] = [1, 2, 3, 4, 5];
+// find method
+let useFindMethod: number[] = [3,5,6,8]
+// useFindMethod.find()
 
-console.log(numbers.includes(2));       // Output: true
-console.log(numbers.includes(7));       // Output: false
-console.log(numbers.includes(3, 3));    // Output: false
+// findIndex method
+// useFindMethod.findIndex()

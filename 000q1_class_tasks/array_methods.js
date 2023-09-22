@@ -35,8 +35,4 @@ console.log(newArrReturned, anotherArr);
 // indexOf method
 console.log(alphabets.indexOf('b'));
 // includes method
-// console.log(alphabets.join(",").includes('c'));
-let newNumbers = [1, 2, 3, 4, 5];
-console.log(numbers.includes(2)); // Output: true
-console.log(numbers.includes(7)); // Output: false
-console.log(numbers.includes(3, 3)); // Output: false
+console.log(combinedArr.includes('c'));

@@ -39,7 +39,7 @@ let newArrReturned = arrForSlice.slice(1)
 
 // If we want slice() to return ['a', 'b'], we need to provide an end index like ['a', 'b', 'c'].slice(0,2). This will start slicing from index 0 (which is a) and stop at index 2 (not inclusive and which is c) giving us ['a', 'b'].
 let anotherArr = arrForSlice.slice(0,2);
-console.log(newArrReturned, anotherArr);
+console.log(anotherArr);
 
 // indexOf method
 console.log(alphabets.indexOf('b'))
@@ -48,8 +48,41 @@ console.log(alphabets.indexOf('b'))
 console.log(combinedArr.includes('c'));
 
 // find method
-let useFindMethod: number[] = [3,5,6,8]
-// useFindMethod.find()
+let arrToUseFindMethod: number[] = [3,5,6,8]
+let found = arrToUseFindMethod.find(element => element % 2 === 0);
+console.log(found)
 
 // findIndex method
-// useFindMethod.findIndex()
+let arrToUseFindIndex: number[] = [2,4,3,5];
+found = arrToUseFindIndex.findIndex(element => element % 2 !== 0);
+console.log(found)
+
+// map method
+let arrToUseMapMethod: number[] = [3,4,8,6];
+let mapArr = arrToUseMapMethod.map(element => element * 2);
+console.log(mapArr);
+
+// [1,4,7,8].filter() //Returns [4,8]
+// filter method
+console.log([1,4,7,8].filter(num => num % 2 === 0)); // Output: [4,8]
+
+// reduce method
+// [2,4,3,7].reduce() // Returns 16
+console.log([2,4,3,7].reduce((acc, cur) => acc + cur, 0)); // Output: 16
+
+// every method
+// [2,3,4,5].every() // Returns true
+console.log([2,3,4,5].every(num => num < 10)); // Output: true
+
+// some method
+// [3,5,6,8].some // Returns true
+console.log([3,5,6,8].some(num => num > 5)); // Output: true
+
+// reverse method
+// [1,2,3,4].reverse() // Returns [4,3,2,1]
+console.log([1,2,3,4].reverse()); // Output: [4,3,2,1]
+
+// at method
+// [3,5,7,8].at(-2) // Returns 7
+console.log([3,5,7,8].at(-2)); // Output: 7
+// Using 'at' thrown similar lib error as previously encountered with include method. To fix the issue, I changed the target in tsconfig file to ES2022

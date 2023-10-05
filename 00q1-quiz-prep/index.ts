@@ -51,6 +51,18 @@ function paintPainting(painter: Painter, painting: string) {
 
 
 
+// Type Inferring
+// Typescript khud se hi type infer karleti hai because of being it smart enough. Typescript har us variable ki type infer kar sakti hai jiski starting value computed ho.
+// In this example, TypeScript knows that the ternary expression always results in a string
+
+// let bestAudio = Math.random() > 0.5 ? "Hamd" : "Simple Voice"
+// console.log(typeof(bestAudio)) // Inferred type: string
+
+// Type errors
+let fullname = "Abdullah"
+fullname.length() // Type error - Typescript be fullname variable ki type "string" infer ki thi and "length" property "number" hai and not function.
+// fullname.length // No Type error
+
 /* // any type
 let obj: any = {x:0};
 

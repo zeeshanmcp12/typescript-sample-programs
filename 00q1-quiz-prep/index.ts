@@ -1,9 +1,16 @@
 // console.log("Hello World")
+let commonMan: string = "A Common Man" // General 'string' type
+commonMan = "Very common"
+
+let philospher: "Ahmed"; // Literal type
+philospher = "Abdullah" // Type error: "Abdullah" is not assignable to "Ahmed"
 
 // ============================================== Chapter 1 ==============================================
 
 /**
  * Chapter 1
+ * Basics
+
 const fullName = "Abdullah"
 const nameLength = fullName.length // fullName.length() - length is a property and not function
 console.log(nameLength)
@@ -50,6 +57,7 @@ function paintPainting(painter: Painter, painting: string) {
 
 /**
  * Chapter 2
+ * The Type System
 
 Type Inferring
 // Typescript khud se hi type infer karleti hai because of being it smart enough. Typescript har us variable ki type infer kar sakti hai jiski starting value computed ho.
@@ -187,14 +195,126 @@ export const doubled = value * 2;
 
 /**
  * Chapter 3
+ * Union and Literals
  * 
+ let teacher: string | number = "Human";
+teacher.toUpperCase() // OK because we have explicitly defined it's value type to be string even though it was with union type
+teacher.toFixed() // type error at this stage
+// it will stop throwing error when we reinitialize it with number
+teacher = 23
+
+// Assignment Narrowing
+let marketer: string | number;
+
+marketer = "Abdullah";
+
+marketer.toUpperCase();
+marketer.toFixed(); // Type error because hamne `marketer = "Abdullah"` main narrowing kardi k 'marketer' string hoga. And string par toFixed() exist nahi karta
+
+
+// Narrowing through Conditional check
+let scientist = Math.random() > 0.5 ? 81 : "Rosland";
+if (scientist === "Hello"){
+    scientist.toUpperCase();
+}
+
+scientist.toFixed();
+
+// Narrowing through ternary operator
+let human = Math.random() > 0.5
+    ? 85
+    : "Abdullah"
+// agar random number 0.5 se greater hoa tu 85 return hoga aur agar less hoga tu "Abdullah" return hoga
+// In this case, no error with be thrown when we write code snippet like below. This is called narrowing using ternary operator.
+
+typeof human === "string" ? human.toUpperCase() : human.toFixed() // Agar human string hoa to toUpperCase() chalega otherwise toFixed() because upper hame 85 mil chuka hoga agar random number 0.5 se greater ho tu.
+
+// Literal Types
+// The difference between const variable with literal types and let variable with primitive types
+
+// Declaring variable with const shows "Literal Type" i.e. const person: "Abdullah"
+const person = "Abdullah"
+//It shows literal type and not primitives like string, number etc
+
+// Declaring variable with let shows "Primitive" type. i.e. let human: string
+let man = "Ahmed"
+
+if (person === "Test"){ // Error
+    person.toUpperCase();
+}
+
+// Yahan par condition ye check ho rahi hai k person jo k "Abdullah" (literal) type ka variable hai, us main "Test" value hai ya nahi. Is waqt 'person' aik special type ka variable aur wo type "Abdullah" hai. Means k is main Abdullah k ilawa koi or value nahi asakti.
+// So "Abdullah" ki type sirf "Abdullah" value ko hi contain kar sakti hai. Is lihaz se condition false hogi.
+
+// Difference between General 'string' type and Specific literal type
+let thisIsGeneralString: string // is main koi bhi value asakti hai jo string ho
+let thisIsLiteralType: "Hello" // is main sirf "Hello" hi asakta hai.
+
+thisIsGeneralString = "Hello" // No Error
+thisIsGeneralString = "World" // No Error
+
+thisIsLiteralType = "Hello" // No Error
+thisIsLiteralType = "World" // Type error: Type '"World"' is not assignable to type '"Hello"'.ts(2322)
+
+
+// const text : string = null // strict null checking
+
+// Variables Without Initial Values
+
+// =============== Implicit undefined ==========================
+// let mathematician: string;
+// mathematician?.length; // Error: Variable is used before being assigned
+// '?.' is a optional chaining operator. It explicitely reads the 'lenght' property without having to check whether mathematician returned null or defined. Read more below about optional chaining operator
+
+// Imagine you have a box, and you're not sure if there's something inside it. Normally, to find out how big the thing inside the box is, you would first need to check if there's anything in the box at all. If you don't, and the box is empty, you might get into trouble for assuming there was something there.
+
+// In our code, the mathematician variable is like this box. And the length property is like the size of the thing inside the box.
+
+// The ?. operator lets you ask "What's the size of the thing inside the box, if there's anything in it?" without getting into trouble if the box is actually empty. If there's something in the box (mathematician is not null or undefined), it tells you the size (the length). If the box is empty (mathematician is null or undefined), it just quietly says "There's nothing in here" (returns undefined), without causing any fuss (an error).
+
+// =============== Explicit undefined ==========================
+// How to resolve error (variable is used before being assigned) in line `let mathematician: string; mathematician?.length`
+// Add undefined type to the variable. For example:
+let mathematician: string | undefined;
+mathematician?.length // OK
+// Hamne "| undefined" de kar ye bata diya k mathematician ki value "undefined" bhi ho sakti hai jo k valid type hai is value ki.
+
+// Type Aliases
+
+// Problem statement
+// let rawData1: string | number | boolean | null | undefined
+// let rawData2: string | number | boolean | null | undefined
+// let rawData3: string | number | boolean | null | undefined
+
+// Instead of writing types with pipe, we can create type and provide all types in there using Union
+
+// Type aliases is kind of copy-paste when using (and assigning) types to variables.
+// Type aliases are created using type keyword, a new name and =:
+// Type aliases are given name PascalCase (by convention)
+
+type RawData = string | number | boolean | null | undefined;
+
+// So above code can be re-written as:
+let rawData1: RawData
+let rawData2: RawData
+let rawData3: RawData
+
+
+// Combining Type Aliases
+
+type Id = string | number;
+type MaybeId = Id | boolean | null | undefined
+
  */
+// ============================================== End of Chapter 3 ==============================================
 
 
 
 
 
+// ============================================== Chapter 4 ==============================================
 
+// ============================================== End of Chapter 4 ==============================================
 
 
 /* // any type

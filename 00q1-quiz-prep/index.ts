@@ -3,7 +3,7 @@ let commonMan: string = "A Common Man" // General 'string' type
 commonMan = "Very common"
 
 let philospher: "Ahmed"; // Literal type
-philospher = "Abdullah" // Type error: "Abdullah" is not assignable to "Ahmed"
+// philospher = "Abdullah" // Type error: "Abdullah" is not assignable to "Ahmed"
 
 // ============================================== Chapter 1 ==============================================
 
@@ -313,6 +313,82 @@ type MaybeId = Id | boolean | null | undefined
 
 
 // ============================================== Chapter 4 ==============================================
+
+// Object Literal
+
+// A set of keys and values - Each with their own type. For example:
+let person = {
+    name: "Abdullah",
+    age: 29,
+    isLoggedIn: true,
+}
+
+// Type inferreing from object
+// let person: {
+    // name: string;
+    // age: number;
+    // isLoggedIn: boolean;
+// }
+
+// person.name = "Ahmed";
+// person['name'] = "Ahmed";
+// person.age = 25;
+// person.age = "Asif"; // type error: type string is not assignable to type number
+// person.isLoggedIn = false;
+
+console.log(typeof(person.age))
+console.log(person['name'])
+
+// Declaring object types
+// It's all fine k existing object main se types inferr ho rahi hain. But eventually hame khud se object ka shape banana hoga jis main hame explicitely object ki type define karni hogi.
+// Iska syntax "object literal" ki tarah hi hai. Difference ye hai k "object type" define karte waqt hame values ki jaga unki primitive types deni hoti hain. 
+// One more difference is that, during defining type, we need to put ":" colon while during the initializing, we need to put "=" equal (or assignment operator) For example:
+
+let newPersonAsType : {
+    name: string
+    age: number
+}
+
+// Ab ham is "object type" main values de sakte hain
+
+newPersonAsType = {
+    name: "Abdullah",
+    age: 28
+}
+
+// Now, newPersonAsType variable is of type object. We cannot redeclare it as string.
+
+newPersonAsType = "Ahmed" // Error: Type 'string' is not assignable to type '{ name: string; age: number; }'
+
+// Aliased Object Types
+
+// Bar bar "Object type" is tarah likhna like {name: string, age: number} can be hectic and tiresome. Most of the time, we use "Aliased Object Types".
+// Upper jo hame type error araha tha, wo ab more readable ho jayega.
+
+// Syntax for Aliased Object Types
+
+type Person = {
+    name: string
+    age: number
+    isLoggedIn: boolean
+}
+
+let supportExecutive: Person;
+
+supportExecutive = "Asif" // Type error: Type 'string' is not assignable to type 'Person'
+
+// Writer Note:
+// Most Typescript's projects prefer to use 'interface' keyword to describe object types.
+
+// Structural Typing
+
+
+
+// Structural Typing: When there is a static system checking that type. in Typescript, it's "Type checker".
+
+// Duck Typing: Duck typing is when nothing checks object types until they’re used at runtime.
+// In summary: JavaScript is duck typed whereas TypeScript is structurally typed.
+
 
 // ============================================== End of Chapter 4 ==============================================
 

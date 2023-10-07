@@ -382,13 +382,179 @@ supportExecutive = "Asif" // Type error: Type 'string' is not assignable to type
 
 // Structural Typing
 
+// Typescript main matter ye karta hai k data ko kis tarah structure kiya gaya hai ya data ko kis tarah shape kiya gaya hai, regardless of how and where it was declared. This is known as "Structural Typing".
 
+type WithFirstName = {
+    firstName : string
+}
 
+type WithLastName = {
+    lastName : string
+}
+
+let hasBoth = {
+    firstName : "Muhammad",
+    lastName: "Abdullah"
+}
+
+// Let's take above code as an example. `WithFirstName` and `WithLastName` dono main aik property defined hai jiski type 'string' hai.
+// `hasBoth` object main dono properties aisi hain jo k `WithFirstName` and `WithLastName` types main available hain. So, jab ham `hasBoth` object ko kisi aise variable main assign karenge jiski type `WithFirstName` ya `WithLastName` ho, tu us main koi error nahi ayega and wo assignment valid hogi. Isi ko kehte hain "Structural Typing", means k Typescript ko sirf ye garaz hai k object ko shape kis tarah kiya gaya hai, matlab k object ki properties k according, na k uski value ya jahan us object ko declare kiya hai.
+
+// Ab ye validate aise hoga:
+
+let aNewTypeThatCanHaveHasBoth : WithFirstName = hasBoth;
+
+// Here, `hasBoth` object is assignable to `aNewTypeThatCanHaveHasBoth` variable of type `WithFirstName` because `hasBoth` object has necessory properties for `WithFirstName` type. This is called "Structural Typing". Structure same tha is wajah se assignment valid ho gayi.
+
+// Some notes from writer:
 // Structural Typing: When there is a static system checking that type. in Typescript, it's "Type checker".
-
 // Duck Typing: Duck typing is when nothing checks object types until they’re used at runtime.
 // In summary: JavaScript is duck typed whereas TypeScript is structurally typed.
 
+// Usage Checking
+
+// Aliased object type ki definition main jo properties batayi hain wo properties us variable main bhi honi chahiyen jo us (Aliased object type) k object k liye declare kiya hai. for example
+
+type typeWithTwoProperties = {
+    first: string
+    last: string
+}
+
+// No Error in this case 
+// because `haveBothProperties` object main wo dono properties exist karti hain jo hamne `typeWithTwoProperties` main define ki (ya dosre words main yun bhi bol sakte hain k "Object shape" kiya hai)
+const haveBothProperties : typeWithTwoProperties = {
+    first: "Muhammad",
+    last: "Abdullah"
+}
+
+// Missing Property Error: Property 'last' is missing in type {first: string;} but is declared in type 'typeWithTwoProperties'
+const hasOnlyOneProperty : typeWithTwoProperties = {
+    first: "Muhammad",
+}
+
+// Typescript ka type checking system ye bhi make sure karta hai k 'Object type' main hamne jo properties and unki types define ki hain wo object main bhi match honi chahiyen otherwise mismatch ki soorat main error ayega. Because "Mismatched types between the two are not allowed". For example:
+
+type exampleForMismatchType = {
+    name: string;
+    age: number;
+}
+
+let aPerson : exampleForMismatchType = {
+    name: "Abdullah",
+    age: "30" // Type error. Type 'string' is not assignable to type 'number'.
+}
+
+// Reason for the error: `exampleForMismatchType` main hamne `age` ki type `number` define ki hai jab k object main ham string de rahe hain tu mismatch ho gaya and Typescript ka type checking system isko allow nahi karta.
+
+// Excess Property Checking
+
+// This is similar to "Usage Checking" as explained above. The only difference is that, in "Excess Property Checking", Typescript doesn't allow if a variable is declared with an object type and has an addiotional properties that the object type doesn't contain.
+// In simple words, object k andar koi extra property nahi hongi chahiyen jo hamne "Object Type" main define nahi ki hain.
+
+
+let anotherPerson : exampleForMismatchType = {
+    name: "Abdullah",
+    age: 30,
+    isLoggedIn: true // Error is self-explanatory when we hover over to 'isLoggedIn'.
+}
+
+// =======================Important point =================================
+// "Excess Property Checking" mechanism sirf usi waqt kam karta hai jab object ki assignment and definition same place main ho rahi ho. Means k dono kaam usi waqt ho rahe hon. Ye usi waqt ho sakta hai jab ham object ko create kar rahe hote hain. Jese k `anotherPerson`.
+
+// English Version: this excess property check only happens for object literals that are being created and assigned to a variable in the same place.
+
+// Flow kuch is tarah hoga:
+// Hamne `anotherPerson` object create kiya
+// `anotherPerson` ko type assign ki jo k `exampleForMismatchType` hai
+// `anotherPerson` ki initialization start ki
+// name: "Abdullah", define ki
+// age: 30, define ki
+// isLoggedIn: true, jese hi ye property define karne lage tu Typescript k type checker ne error throw kiya k ye wali property `exampleForMismatchType` main exist nahi karti.
+
+// Agar ham pehle se bana hoa object kisi variable (of type `exampleForMismatchType`) ko assign karenge tu "Excess Property Checking" apply nahi hogi. Let's take below as an example:
+let oneMorePerson : exampleForMismatchType = anotherPerson
+
+// `anotherPerson` object pehle se ban chuka hai and then `oneMorePerson` ko assign ho raha hai tu koi error nahi ayega.
+
+// =============== But why is that? ===========================================
+// See excess_type_checking_reason.md file for the reason.
+
+// Nested Object Types
+
+// Object k andar object. TypeScript yahan bhi type safety provide karti hai.
+// Agar object 'Object type' ka structure follow karte hoe create hoa hai tu koi error nahi ayega cha'hay 'Object Type' nested object contain karti ho. For example:
+
+type Poem = {
+    author: {
+        firstName: string;
+        lastName: string;
+    }
+    name: string
+}
+
+const poemMatch : Poem = {
+    author: {
+        firstName: "Muhammad",
+        lastName: "Abdullah",
+    },
+    name: "Nothing to See"
+}
+
+const poemMisMatch : Poem = {
+    author: {
+        name: "Ahmed" // Error: Type '{ name: string; }' is not assignable to type '{ firstName: string; lastName: string; }'. Object literal may only specify known properties, and 'name' does not exist in type '{ firstName: string; lastName: string; }'.
+    },
+    name: "Something to See"
+}
+
+// It's a good practice to more out nested type from "Object type". Code readability bhi behtar ho jayegi or error bhi concise ho jayega.
+
+type Author = {
+    firstName: string;
+    lastName: string;
+}
+
+type newPoemType = {
+    name: string;
+    author: Author;
+}
+
+const newPoemMisMatch: newPoemType = {
+    author: {
+        name: "Abdullah" // Error: Type '{ name: string; }' is not assignable to type 'Author'. Object literal may only specify known properties, and 'name' does not exist in type 'Author'.ts(2322)
+    },
+    name: "Everything to See"
+}
+
+// ======================== TIP from writer =================================
+
+// It is generally a good idea to move nested object types into their own type name like this, both for more readable code and for more readable TypeScript error messages.
+
+// Optional Properties
+
+// Ham "Object Type" main kisi property ko optional bhi kar sakte hain. Method ye hai k property k bad and ":" se pehle "?" question mark add karden. For example:
+
+type typeWithOptionalProperty = {
+    requireProperty : string;
+    optionalProperty ?: string; // This is optional
+}
+
+// Make sure to keep the difference between optional and the one defined with "Union's undefined".
+
+// English version:
+// Keep in mind there is a difference between optional properties and properties whose type happens to include undefined in a type union. A property declared as optional with ? is allowed to not exist. A property declared as required and | undefined must exist, even if the value is undefined.
+
+type Book = {
+    author ?: string,
+    pages : string | undefined
+}
+
+const ok: Book = {
+    pages : undefined
+}
+
+const notOk: Book = { } // Error: Property 'pages' is missing in type '{}' but required in type 'Book'.ts(2741)
+// Yahan author ka koi error nahi diya because wo optional property thi.
 
 // ============================================== End of Chapter 4 ==============================================
 

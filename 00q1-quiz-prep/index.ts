@@ -556,6 +556,138 @@ const ok: Book = {
 const notOk: Book = { } // Error: Property 'pages' is missing in type '{}' but required in type 'Book'.ts(2741)
 // Yahan author ka koi error nahi diya because wo optional property thi.
 
+// Unions of Object Types
+
+// Sometimes kuch scenarios aise bhi ho sakte hain hame aisi 'type' banari create karni jo dosri types ko union k sath hold kare (ya us type ko ham more than one type assign karen). Har type main different properties bhi ho sakti hain. For example:
+
+type Cat = {
+    name: string;
+    purns:boolean
+}
+
+type Dog = {
+    name:string;
+    barks:boolean
+}
+
+type Pet = Cat | Dog
+
+// Here Pet is a Union type that can be either a 'Cat' or 'Dog'
+// Type Narrowing k through ham isko handle kar sakte hain if we want to check all types.
+
+function playWithPet(pet: Pet){
+    if('purns' in pet){
+        console.log(`${pet.name} purns`);
+    }else if('barks' in pet){
+        console.log(`${pet.name} barks`);
+    }
+}
+
+// We use 'in' keyword to check if a property exist in object (Pet).
+
+// Inferred Object-Type Unions
+
+// Jab kisi variable ko kisi aisi value ko sath initialized kiya jaye jo several different object types ki ho tu Typescript us variable ki kya type infer karegi. for example:
+
+let poem = Math.random() > 0.5
+    ? {name: "The Poem", pages: 10}
+    : {name: "The Sun is light", rhymes: false}
+
+// Yahan par poem ko different object types main se koi aik object type assign ho rahi hai based on the condition (Math.random() > 5).
+// One possible type has name and pages properties and the other possible type has name and rhymes properties.
+
+// Ab jab ye hoga tu TypeScript ye inferr karegi k 'poem' is of union type jis main dono possible object shapes ho sakte hain. Plus wo saari properties is (poem) union type main included hongi jo in ({name: "The Poem", pages: 10}{name: "The Sun is light", rhymes: false}) object shapes main defined thin. Agar koi property kisi object shape main nahi hogi tu TypeScript us property ko optional kardega. For example:
+
+// {
+//     name:string;
+//     pages:number;
+//     rhymes?:undefined;
+// } | {
+//     name:string;
+//     pages?:undefined;
+//     rhymes:boolean;
+// }
+
+// When you access poem.name, TypeScript knows it's always a string. But when you access poem.pages or poem.rhymes, TypeScript recognizes that they might be undefined, because they aren't present on every possible object shape for poem. So their type is number | undefined and boolean | undefined, respectively.
+
+// Explicit Object-Type Unions
+
+// Ham explicitely types define kar k us union type (poem) ko de sakte hain.
+
+type PoemWithPage = {
+    name: string;
+    pages: number;
+}
+
+type PoemWithRhymes = {
+    name: string;
+    rhymes: boolean;
+}
+
+type PoemType = PoemWithPage | PoemWithRhymes
+
+let newPoem: PoemType = Math.random() > 0.5
+    ? {name: "The Poem", pages: 10}
+    : {name: "The Sun is light", rhymes: false}
+
+// Is case main k jab hamne khud se type define kar k is newPoem ko de di hai tu ham sirf wo property access kar sakte hain jo all those union types main available hogi which is 'name'.
+
+newPoem.name //Allowed because it is available in all those union types (PoemWithPage & PoemWithRhymes)
+newPoem.pages; // Error: Property 'pages' does not exist on type 'PoemType'. Property 'pages' does not exist on type 'PoemWithRhymes'
+newPoem.rhymes;// Error: Property 'rhymes' does not exist on type 'PoemType'. Property 'rhymes' does not exist on type 'PoemWithPage'
+
+// Narrowing Object Types
+
+// We can narrow down to check if property of that object does exist then true otherwise false.
+
+if ('pages' in newPoem){
+    newPoem.pages // OK: newPoem is narrowed to PoemWithPage
+}else {
+    newPoem.rhymes // OK: newPoem is narrowed to PoemWithRhymes
+}
+
+// Yahan par truthiness checking allow nahi hai for those non-existence properties like `if (newPoem.pages)`. It will throw type error
+// Property 'pages' does not exist on type 'PoemWithPages | PoemWithRhymes'.
+// Property 'pages' does not exist on type 'PoemWithRhymes'.
+
+// Discriminated Unions
+
+// Discriminated Unions ye hota hai k union types main har type k andar aik aisi property ("Discriminant") hogi jo union types main defined saari types k darmiyan farq karegi. Is se benefit ye hoga k narrowing easy ho jayegi. Let's take an example:
+
+type PoemWithPrice = {
+    name: string;
+    price:number;
+    type:"price"
+}
+
+type PoemWithBestSelling = {
+    name: string;
+    bestSelling:boolean;
+    type:"bestSelling"
+}
+
+// Let's create a union type
+
+type PoemAdv = PoemWithPrice | PoemWithBestSelling;
+
+let poemChanged : PoemAdv = Math.random() > 0.5
+    ? {name:"The Hello", price:40, type:"price"}
+    : {name:"The Yellow", bestSelling:true, type:"bestSelling"}
+
+if (poemChanged.type === "price") {
+    console.log(`We got the price with ${poemChanged.price}`)
+}else if (poemChanged.type === "bestSelling"){
+    console.log(`Yes, it's ${poemChanged.bestSelling}`)
+}
+
+// Now, this is allowed to access property with type (Discriminent)
+poemChanged.type
+
+// Not allowed
+poemChanged.price
+// Property 'price' does not exist on type 'PoemAdv'.
+//   Property 'price' does not exist on type 'PoemWithBestSelling'
+
 // ============================================== End of Chapter 4 ==============================================
 
 

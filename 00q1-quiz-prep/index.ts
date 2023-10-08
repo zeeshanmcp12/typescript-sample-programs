@@ -314,7 +314,11 @@ type MaybeId = Id | boolean | null | undefined
 
 // ============================================== Chapter 4 ==============================================
 
-// Object Literal
+/**
+ * Chapter 4
+ * Objects
+ * 
+ // Object Literal
 
 // A set of keys and values - Each with their own type. For example:
 let person = {
@@ -556,7 +560,10 @@ const ok: Book = {
 const notOk: Book = { } // Error: Property 'pages' is missing in type '{}' but required in type 'Book'.ts(2741)
 // Yahan author ka koi error nahi diya because wo optional property thi.
 
-// Unions of Object Types
+// ======================================= Unions of Object Types ==========================================
+
+// TypeScript main Union types pipe operator "|" se define ki jati hain.
+// Ye is cheez ko represent karta hai k kisi value ki aik ya aik se zyada types ho sakti hain. for example: let myData = string | number | boolean
 
 // Sometimes kuch scenarios aise bhi ho sakte hain hame aisi 'type' banari create karni jo dosri types ko union k sath hold kare (ya us type ko ham more than one type assign karen). Har type main different properties bhi ho sakti hain. For example:
 
@@ -687,6 +694,40 @@ poemChanged.type
 poemChanged.price
 // Property 'price' does not exist on type 'PoemAdv'.
 //   Property 'price' does not exist on type 'PoemWithBestSelling'
+
+// ================================================ Intersection Types ================================================
+// Jis tarah TypeScript main "Union Types" "|" sign k sath define ki jati hain is tarah TypeScript main "Intersection Types" "&" sign k sath define ki jati hain.
+// Intersection types are typically used with "Aliased Object Types"
+// Syntax
+
+type Car = {
+    name: string;
+    model: number
+}
+
+type Imported = {
+    japanese:boolean;
+}
+
+type ImportedCar = Car & Imported;
+// Equivalent to 
+// {
+//     name:string,
+//     model:number,
+//     japanese:boolean
+// }
+
+// Dangers of Intersection Types
+// Long Assignability
+// Agar intersection types of "combination of union types" k sath use kiya jaye tu ye buhut difficult ho jata read karna and debug karna.
+
+// never
+// Ye buhut rare cases main use hota.
+type notPossible = string & number
+
+const notString: notPossible = "" // Error: Type 'string' is not assignable to type 'never'
+const notNumber: notPossible = 0 // Error: Type 'number' is not assignable to type 'never'
+ */
 
 // ============================================== End of Chapter 4 ==============================================
 

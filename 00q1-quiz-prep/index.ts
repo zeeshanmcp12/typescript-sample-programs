@@ -731,6 +731,48 @@ const notNumber: notPossible = 0 // Error: Type 'number' is not assignable to ty
 
 // ============================================== End of Chapter 4 ==============================================
 
+// ============================================== Chapter 5 ==============================================
+
+// ==================== Function parameter ===================
+// Define function parameter's type using anotation, function recite(audio: string){console.log(`reciting ${audio}`)}
+
+// Required Parameters
+// Javascript main ham jitne parameters den koi issue nahi hoga. Typescript ye consider karegi k jitne parameters diye hain wo sab required hain, and agar koi bhi parameter function call k waqt nahi diya tu type error ayega.
+
+// Parameters: Jo ham ham function banate hoe paranthesis main dete hain. Means k function signature main.
+// Arguments: Jo ham function call karte waqt un parameters ki jaga ki dete hain.
+
+// Optional Parameter
+//  Ham parameters ko optional bhi kar sakte hain. optional karne k liye "?" lagana hota hai anoted ":" se pehle. Optional parameters ko hamesha last main define karna hota hai function signature main. Syntax: function reciteWithRecitor(audio: string, recitor?:string){console.log(`Recitor ${audio})}
+
+// optional parameter union type se different hain. Aisa nahi ho sakta k ham parameter union type k sath define karen and expect karen k ye function call main type error nahi dega. Koi bhi parameter jo "?" question mark sign k sath mark nahi kiya wo agar function call main diya tu error ayega.
+// function reciteWithRecitor(audio: string, recitor: string | undefined){
+    
+// }
+
+// reciteWithRecitor("Hamd") // Expected 2 but got 1
+// reciteWithRecitor("Hamd", undefined) // OK
+// reciteWithRecitor("Hamd", "SHA") // OK
+
+// Default Parameters
+// Jis tarah JavaScript main ham optional parameter ko "=" k sath defualt value de sakte hain isi tarah TypeScript main bhi agar ham anotation k bajaye "=" k sath koi value dete hain tu TypeScript uski type 'value' k according inferr karlegi. Ab function call main agar ham undefine dete hain ya value nahi bhi dete tu koi error nahi ayega unless k ham type change karden. Jese k agar hamne koi number type ki value default ki hai parameter main tu ab function call main number and undefined k liawa types main error ayega.
+
+// Rest Parameters
+// Agar hame kabhi 1 se zyada arguments pass karne hon but ye nahi malom ho k kitne karne hain tu us k liye ham "Rest Parameters" use kar sakte hain.JavaScript main ham spread operator "..." ko use karte hoe function k parameters declare karte hain. TypeScript main bhi spread operator "..." ko use karte hoe rest parameters declare kar sakte hain. But ye zaroori hai k rest parameter sab se last main ho and uski type array ho.
+
+function manyAudios(recitor: string, ...audios: string[]){
+    for (const recitor of audios){
+        console.log(`Recitor of ${audios} is ${recitor}`)
+    }
+}
+
+manyAudios("Naat")
+manyAudios("Naat","Kalam","Sorah","etc")
+manyAudios("Naat",688) // Type error
+manyAudios("Naat", undefined) // Type error
+
+// ==================== Return Types ===================
+// 
 
 /* // any type
 let obj: any = {x:0};

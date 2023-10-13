@@ -759,7 +759,7 @@ const notNumber: notPossible = 0 // Error: Type 'number' is not assignable to ty
 
 // Rest Parameters
 // Agar hame kabhi 1 se zyada arguments pass karne hon but ye nahi malom ho k kitne karne hain tu us k liye ham "Rest Parameters" use kar sakte hain.JavaScript main ham spread operator "..." ko use karte hoe function k parameters declare karte hain. TypeScript main bhi spread operator "..." ko use karte hoe rest parameters declare kar sakte hain. But ye zaroori hai k rest parameter sab se last main ho and uski type array ho.
-
+/* 
 function manyAudios(recitor: string, ...audios: string[]){
     for (const recitor of audios){
         console.log(`Recitor of ${audios} is ${recitor}`)
@@ -769,10 +769,49 @@ function manyAudios(recitor: string, ...audios: string[]){
 manyAudios("Naat")
 manyAudios("Naat","Kalam","Sorah","etc")
 manyAudios("Naat",688) // Type error
-manyAudios("Naat", undefined) // Type error
+manyAudios("Naat", undefined) // Type error */
 
 // ==================== Return Types ===================
-// 
+// Typescript is perceptive.
+// Agar Typescript ko ye understand ho jaye k function konsi value return karega tu TypeScript ko uski type bhi malom ho jayegi.
+
+// Agar function main multiple return statements hon with different values tu TypeScript main wo Union type consider hogi.
+
+// function getSongAt((songs: string[], index: number){
+//     return index < songs.length
+//         ? songs[index]
+//         : undefined;
+// }
+
+// Explicit Return types
+// Ham TypeScript main explicitely return type declare kar sakte hain. Regular function main ye "{" curly braces se pehle hota hai aur arrow function main ye "=>" se pehle hota hai.
+
+function tesFunc(numberOne: number, numberTwo: number): number {
+    return numberOne + numberTwo
+}
+
+const numbers = [1,2,2,3,4,5]
+
+const numOnArr = numbers.reduce((acc, current): number => {
+    acc += current
+    return acc
+})
+
+// console.log(numOnArr)
+
+// Agar function main return statement aisi value return kare jo (declared) return type ko assign na ho sake to wahan par assignability error ayega jese k is example main funtion ki return type "Date" aur "undefined" hai but function ki definition main "string" ki return ho raha hai.
+function getAudioDate(audios: string): Date | undefined {
+    switch (audios) {
+        case "Naat":
+            return new Date('October 13, 2023');
+        case "Don't know":
+            return "Hello"; // Error: Type 'string' is not assignable to type 'Date'.
+        default:
+            return undefined
+            break;
+    }
+}
+
 
 /* // any type
 let obj: any = {x:0};

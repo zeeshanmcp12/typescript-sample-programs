@@ -762,7 +762,30 @@ const numOnArr = numbers.reduce((acc, current) => {
     acc += current;
     return acc;
 });
-console.log(numOnArr);
+// console.log(numOnArr)
+// Agar function main return statement aisi value return kare jo (declared) return type ko assign na ho sake to wahan par assignability error ayega jese k is example main funtion ki return type "Date" aur "undefined" hai but function ki definition main "string" ki return ho raha hai.
+/* function getAudioDate(audios: string): Date | undefined {
+    switch (audios) {
+        case "Naat":
+            return new Date('October 13, 2023');
+        case "Don't know":
+            return "Hello"; // Error: Type 'string' is not assignable to type 'Date'.
+        default:
+            return undefined
+            break;
+    }
+} */
+// ==================== Function Types ===================
+// JavaScript main ham function ko as a value bhi pass kar sakte hain. ISka matlab ye hoa k TypeScript main hame aisa tareeqa find out karna hai k ham aise parameter ya variable ki 'Type' declare kar saken jo function ko hold kare. Means k us parameter or variable ki value ki jaga 'function' declare hoga. For example:
+function myFunc(anyText) { anyText; } // Regular function where parameter is of type 'string'
+function myNewFunc(getAnotherFunc) {
+    console.log(getAnotherFunc("This is from getAnotherFunc"));
+    // return getAnotherFunc("Hello")
+}
+function printMe(simpleText) {
+    return simpleText;
+}
+myNewFunc(printMe);
 /* // any type
 let obj: any = {x:0};
 

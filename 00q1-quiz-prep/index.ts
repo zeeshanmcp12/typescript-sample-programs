@@ -800,7 +800,7 @@ const numOnArr = numbers.reduce((acc, current): number => {
 // console.log(numOnArr)
 
 // Agar function main return statement aisi value return kare jo (declared) return type ko assign na ho sake to wahan par assignability error ayega jese k is example main funtion ki return type "Date" aur "undefined" hai but function ki definition main "string" ki return ho raha hai.
-function getAudioDate(audios: string): Date | undefined {
+/* function getAudioDate(audios: string): Date | undefined {
     switch (audios) {
         case "Naat":
             return new Date('October 13, 2023');
@@ -810,7 +810,39 @@ function getAudioDate(audios: string): Date | undefined {
             return undefined
             break;
     }
+} */
+
+// ==================== Function Types ===================
+// JavaScript main ham function ko as a value bhi pass kar sakte hain. ISka matlab ye hoa k TypeScript main hame aisa tareeqa find out karna hai k ham aise parameter ya variable ki 'Type' declare kar saken jo function ko hold kare. Means k us parameter or variable ki value ki jaga 'function' declare hoga. For example:
+
+function myFunc(anyText: string):void{anyText} // Regular function where parameter is of type 'string'
+
+function myNewFunc(getAnotherFunc: (atext: string) => string){
+    console.log(getAnotherFunc("This is from getAnotherFunc"))
+    // return getAnotherFunc("Hello")
 }
+
+function printMe(simpleText: string){
+    return simpleText
+}
+
+function funcNotReturnString(anyNumber: number){
+    return anyNumber
+}
+
+myNewFunc(printMe) // OK - No error because is main string return ho raha hai.
+
+myNewFunc(funcNotReturnString) // Error: Argument of type `anyNumber: number => number` is not assignable to `(atext: string)=> string`
+// Error: Type is not compatible for both functions
+
+// Function Type Paranthesis
+// Function type kahin bhi place ki ja sakti hain, jahan koi dosri type use hoti hai. Is main Union types included hain.
+// Ham value Union type k sath bhi return kar sakte hain jese k: let myAnotherfunc: (text: string) => string | undefined
+// Unions types main paranthesis ka use is bat ko indicate karne k liye kiya ja sakta hai k annotation ka konsa part "Function Return" hai and konsa part surrounding types ka hai. For example
+let thisIsFuncType: ((atext: string) => string) | undefined;
+// Is example main Union type main aik jaga hamne function type declare kardi and on second place hamne 'undefined' declare kardi. Means k is `thisIsFuncType` variable ki type function and undefined dono ho sakti hai.
+
+// Parameter Type Inferences
 
 
 /* // any type

@@ -1001,3 +1001,6 @@ function pickCard(x): any{
         return {suit: suits[pickedSuit], card: x % 13}
     }
 }
+
+// let suits = ["hearts", "diamonds", "clubs", "spades"];
+//  the function will work as expected when it's called with a number as a parameter.

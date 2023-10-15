@@ -980,3 +980,10 @@ console.log(obj = "Abdullah", obj) // No error, because 'obj' is of type 'any' a
 const n : number = obj // No error, because 'obj' is of type 'any' but the variable 'n' will contain the string "Abdullah" which is not a number
 console.log(n, obj)
  */
+
+function findCharAndSize(input: string){
+    return [input[0], input.length];  // This is because type inference as TypeScript inferred the type based on return value which is an array of 2 elements. This is not the tuple and still a variable-length array because 
+}
+
+const [Char, size] = findCharAndSize("Abdullah") // Here we are doing array destructuring
+console.log(findCharAndSize("Abdullah"))

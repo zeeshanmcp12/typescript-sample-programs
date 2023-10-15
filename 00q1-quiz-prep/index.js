@@ -714,25 +714,36 @@ const notNumber: notPossible = 0 // Error: Type 'number' is not assignable to ty
  */
 // ============================================== End of Chapter 4 ==============================================
 // ============================================== Chapter 5 ==============================================
+/**
+ *
+ *
 // ==================== Function parameter ===================
 // Define function parameter's type using anotation, function recite(audio: string){console.log(`reciting ${audio}`)}
+
 // Required Parameters
 // Javascript main ham jitne parameters den koi issue nahi hoga. Typescript ye consider karegi k jitne parameters diye hain wo sab required hain, and agar koi bhi parameter function call k waqt nahi diya tu type error ayega.
+
 // Parameters: Jo ham ham function banate hoe paranthesis main dete hain. Means k function signature main.
 // Arguments: Jo ham function call karte waqt un parameters ki jaga ki dete hain.
+
 // Optional Parameter
 //  Ham parameters ko optional bhi kar sakte hain. optional karne k liye "?" lagana hota hai anoted ":" se pehle. Optional parameters ko hamesha last main define karna hota hai function signature main. Syntax: function reciteWithRecitor(audio: string, recitor?:string){console.log(`Recitor ${audio})}
+
 // optional parameter union type se different hain. Aisa nahi ho sakta k ham parameter union type k sath define karen and expect karen k ye function call main type error nahi dega. Koi bhi parameter jo "?" question mark sign k sath mark nahi kiya wo agar function call main diya tu error ayega.
 // function reciteWithRecitor(audio: string, recitor: string | undefined){
+    
 // }
+
 // reciteWithRecitor("Hamd") // Expected 2 but got 1
 // reciteWithRecitor("Hamd", undefined) // OK
 // reciteWithRecitor("Hamd", "SHA") // OK
+
 // Default Parameters
 // Jis tarah JavaScript main ham optional parameter ko "=" k sath defualt value de sakte hain isi tarah TypeScript main bhi agar ham anotation k bajaye "=" k sath koi value dete hain tu TypeScript uski type 'value' k according inferr karlegi. Ab function call main agar ham undefine dete hain ya value nahi bhi dete tu koi error nahi ayega unless k ham type change karden. Jese k agar hamne koi number type ki value default ki hai parameter main tu ab function call main number and undefined k liawa types main error ayega.
+
 // Rest Parameters
 // Agar hame kabhi 1 se zyada arguments pass karne hon but ye nahi malom ho k kitne karne hain tu us k liye ham "Rest Parameters" use kar sakte hain.JavaScript main ham spread operator "..." ko use karte hoe function k parameters declare karte hain. TypeScript main bhi spread operator "..." ko use karte hoe rest parameters declare kar sakte hain. But ye zaroori hai k rest parameter sab se last main ho and uski type array ho.
-/*
+
 function manyAudios(recitor: string, ...audios: string[]){
     for (const recitor of audios){
         console.log(`Recitor of ${audios} is ${recitor}`)
@@ -742,81 +753,196 @@ function manyAudios(recitor: string, ...audios: string[]){
 manyAudios("Naat")
 manyAudios("Naat","Kalam","Sorah","etc")
 manyAudios("Naat",688) // Type error
-manyAudios("Naat", undefined) // Type error */
+manyAudios("Naat", undefined) // Type error
+
 // ==================== Return Types ===================
 // Typescript is perceptive.
 // Agar Typescript ko ye understand ho jaye k function konsi value return karega tu TypeScript ko uski type bhi malom ho jayegi.
+
 // Agar function main multiple return statements hon with different values tu TypeScript main wo Union type consider hogi.
+
 // function getSongAt((songs: string[], index: number){
 //     return index < songs.length
 //         ? songs[index]
 //         : undefined;
 // }
+
 // Explicit Return types
 // Ham TypeScript main explicitely return type declare kar sakte hain. Regular function main ye "{" curly braces se pehle hota hai aur arrow function main ye "=>" se pehle hota hai.
-function tesFunc(numberOne, numberTwo) {
-    return numberOne + numberTwo;
+
+function tesFunc(numberOne: number, numberTwo: number): number {
+    return numberOne + numberTwo
 }
-const numbers = [1, 2, 2, 3, 4, 5];
-const numOnArr = numbers.reduce((acc, current) => {
-    acc += current;
-    return acc;
-});
+
+const numbers = [1,2,2,3,4,5]
+
+const numOnArr = numbers.reduce((acc, current): number => {
+    acc += current
+    return acc
+})
+
 // console.log(numOnArr)
+
 // Agar function main return statement aisi value return kare jo (declared) return type ko assign na ho sake to wahan par assignability error ayega jese k is example main funtion ki return type "Date" aur "undefined" hai but function ki definition main "string" ki return ho raha hai.
-/* function getAudioDate(audios: string): Date | undefined {
-    switch (audios) {
-        case "Naat":
-            return new Date('October 13, 2023');
-        case "Don't know":
-            return "Hello"; // Error: Type 'string' is not assignable to type 'Date'.
-        default:
-            return undefined
-            break;
-    }
-} */
+// function getAudioDate(audios: string): Date | undefined {
+//     switch (audios) {
+//         case "Naat":
+//             return new Date('October 13, 2023');
+//         case "Don't know":
+//             return "Hello"; // Error: Type 'string' is not assignable to type 'Date'.
+//         default:
+//             return undefined
+//             break;
+//     }
+// }
+
 // ==================== Function Types ===================
 // JavaScript main ham function ko as a value bhi pass kar sakte hain. ISka matlab ye hoa k TypeScript main hame aisa tareeqa find out karna hai k ham aise parameter ya variable ki 'Type' declare kar saken jo function ko hold kare. Means k us parameter or variable ki value ki jaga 'function' declare hoga. For example:
-function myFunc(anyText) { anyText; } // Regular function where parameter is of type 'string'
-function myNewFunc(getAnotherFunc) {
-    console.log(getAnotherFunc("This is from getAnotherFunc"));
+
+function myFunc(anyText: string):void{anyText} // Regular function where parameter is of type 'string'
+
+function myNewFunc(getAnotherFunc: (atext: string) => string){
+    console.log(getAnotherFunc("This is from getAnotherFunc"))
     // return getAnotherFunc("Hello")
 }
-function printMe(simpleText) {
-    return simpleText;
+
+function printMe(simpleText: string){
+    return simpleText
 }
-function funcNotReturnString(anyNumber) {
-    return anyNumber;
+
+function funcNotReturnString(anyNumber: number){
+    return anyNumber
 }
-myNewFunc(printMe); // OK - No error because is main string return ho raha hai.
+
+myNewFunc(printMe) // OK - No error because is main string return ho raha hai.
+
 // myNewFunc(funcNotReturnString) // Error: Argument of type `anyNumber: number => number` is not assignable to `(atext: string)=> string`
 // Error: Type is not compatible for both functions
+
 // Function Type Paranthesis
 // Function type kahin bhi place ki ja sakti hain, jahan koi dosri type use hoti hai. Is main Union types included hain.
 // Ham value Union type k sath bhi return kar sakte hain jese k: let myAnotherfunc: (text: string) => string | undefined
 // Unions types main paranthesis ka use is bat ko indicate karne k liye kiya ja sakta hai k annotation ka konsa part "Function Return" hai and konsa part surrounding types ka hai. For example
-let thisIsFuncType;
+let thisIsFuncType: ((atext: string) => string) | undefined;
 // Is example main Union type main aik jaga hamne function type declare kardi and on second place hamne 'undefined' declare kardi. Means k is `thisIsFuncType` variable ki type function and undefined dono ho sakti hai.
+
 // Parameter Type Inferences
 // TypeScript main hame hamesha parameter ki type explicitly define karne ki zaroorat nahi hai. TypeScript main parameters ki type infer karne ki capability hai. Means k agar aik jaga apne parameter ki type 'string' define ki hai and then dosri jaga ap us variable ko use karenge tu TypeScript us parameter ki type wohi infer karlegi jo originally apne batayi thi.
+
 // Isi tarah wo functions jo ham dosre functions main 'as an argument' pass karte hain, unky parameters ki type bhi outer function k according infer ho jati hai.
-const songs = ["Hello", "This is hello", "This is bye"];
+
+const songs = ["Hello", "This is hello", "This is bye"]
+
 songs.forEach((song, index) => {
-    console.log(`${song} is at ${index}`);
-});
+    console.log(`${song} is at ${index}`)
+})
+
 // is example main, ham songs (array) ka forEach method use kar rahe hain jo function (as argument) accept karta hai. Is example main arrow function use ho raha hai jis ko two parameters required hain, 'element' and the 'index' number. Yahan par hame in parameters ki type explicitly define karne ki zaroorat nahi pari kun k TypeScript ko malom hai k song 'array of string' hai and uska 'index' number hai.
+
 // Function Type Aliases
 // Jis tarah ham 'Union and Literals' main type aliases bana lete hain isi tarah functioni ki bhi bana sakte hain. For example:
-let thisFunc; // Regular "Function Type"
-let thisIsOnlyFunc; // Initialized Function with Type
+let thisFunc: (audio:string,...number:number[]) => string // Regular "Function Type"
+
+type ThisIsFuncTypeAliase = (audio: string) => string // Declared type
+
+let thisIsOnlyFunc: ThisIsFuncTypeAliase // Initialized Function with Type
+
 thisIsOnlyFunc = (audio) => {
-    return audio.toUpperCase();
-};
-console.log(thisIsOnlyFunc("Hello World"));
-function usesNumToString(usesNumToString) {
-    console.log(`This is usesNumToString that convert ${usesNumToString(1234)} to string!`);
+    return audio.toUpperCase()
 }
-usesNumToString((input) => `${input}! Horray!`);
+
+console.log(thisIsOnlyFunc("Hello World"))
+
+// thisIsOnlyFunc = (audio) => 2+2 // Error: Type 'number' is not assignable to type 'string'
+
+// Function parameter bhi 'type aliase' ban sakte hain. Means k ham Type aliase ko function parameter ki jaga bhi use kar sakte hain.
+
+type numToString = (input: number) => string
+
+function usesNumToString(usesNumToString: numToString){
+    console.log(`This is usesNumToString that converts ${usesNumToString(1234)} to string!`)
+}
+
+// Yahan hamne aik function define kiya (usesNumToString) jo aik function ko as parameter accept karta hai. Is parameter ki type 'function' honi chahiye jo number le kar string return kare.
+
+usesNumToString((input) => `${input}! Horray!`) // OK
+
+// usesNumToString((input) => input * 2) // Error: Type 'number' is not assignable to type 'string'
+
+// ==================== More Return Types ===================
+// Kuch functions koi value return nahi karte. Kabhi tu wo function without 'return' keyword defined hote hain and kabhi un main 'return' keyword hota hai but wo kuch return nahi kartay. TypeScript main isk liye 'void' ka keywords hai.
+// void
+// Jin functions ki return type 'void' hogi wo koi value return nahi karenge but keyword ham define kar sakte hain. For example
+
+function logAudio(song: string):void {
+    if (!song){
+        return
+    }
+    console.log(`${song}`);
+    return true; // Error: Type 'boolean' is not assignable to type 'void'
+}
+
+// Functoin type declare karte waqt 'void' usefull ho sakta hai. for example:
+let longAudio: (input: string) => void; // Yahan hamne aik variable declare kiya or uski type batadi jo k 'function' hai. Means k is variable ki type 'function' hai.
+
+longAudio = function(audio: string): void {
+    console.log(`${audio}`)
+}
+// Yahan hamne 'longAudio' variable ko aik function assign kardiya
+
+longAudio = (audio:string):void => {
+    console.log(`${audio}`)
+}
+// This is same as above function.
+
+// Upper wale dono functions same hain aur in main sirf syntax ka farq hai. First wala Function expression hai aur second wala Arrow function hai.
+
+// JavaScript main agar ham koi value return nahi karen tu by defualt 'undefined' return hota hai. TypeScript main aisa nahi hai. void k case main 'undefined' return nahi hoga bal k value ignore ho jayegi. Ab agar hamne koi type aisi banayi jis main 'undefine' assign ki, jab ham ise void k sath return karenge tu type error ayega.
+
+function returnsVoid(){
+    return; // TypeScript main iska matlab hai k value ignore kardo naa k 'undefined'
+}
+
+let lazyValue: string | undefined
+
+// lazyValue = returnsVoid(); // Error: Type 'void' is not assignable to type 'undefined'
+// Yahan error is wajah se hai k lazyValue variable ki aik value 'undefined' hai jo literal value hai. Ham yahan void ko assign kar rahe hain aisi value main jiski type 'undefined' hai.
+
+// The void type is not JavaScript. It’s a TypeScript keyword used to declare return types of functions. Remember, it’s an indication that a function’s returned value isn’t meant to be used, not a value that can itself be returned.
+
+// never -> Visit Never from Chapter 5 in Book to get more understanding
+// never is for a function that never returns.
+
+// ==================== Functions Overload ===================
+//
+
+function createDate(timestamp: number) : Date
+function createDate(month: number, day:number, year:number) : Date
+function createDate(monthOrTimestamp: number, day?:number, year?:number){
+    return day === undefined || year === undefined
+        ? new Date(monthOrTimestamp)
+        : new Date(year, monthOrTimestamp, day)
+}
+
+createDate(554356800)
+createDate(2023, 12, 24)
+createDate(12, 24) // Error:
+
+// ====================== Warning from writer ==========================
+// Function overloads are generally used as a last resort for complex, difficult-to-describe function types. It’s generally better to keep functions simple and avoid using function overloads when possible.
+
+// Call-Signature Compatibility
+// Function overload main implementation aur signature dono compatible hone chahiyen. Like agar implementation main parameter type string ho aur return type bhi string ho, then jab ham iska signature banayenge different nahi hona chahiye. for example:
+
+// This is implementation for function overlading
+function format(data: string): string
+function format(data: string, needle: string, hastack: string): string
+
+// This is signature
+function format(getData : () => string): string // Error: This is not compatible with it's implementation
+
+ */
+// ============================================== End of Chapter 5 ==============================================
 /* // any type
 let obj: any = {x:0};
 
@@ -832,4 +958,9 @@ console.log(obj = true) // No error, because 'obj' is of type 'any' and can be a
 console.log(obj = "Abdullah", obj) // No error, because 'obj' is of type 'any' and can be assigned any value. Here 'obj' becomes "string".
 const n : number = obj // No error, because 'obj' is of type 'any' but the variable 'n' will contain the string "Abdullah" which is not a number
 console.log(n, obj)
- */ 
+ */
+function findCharAndSize(input) {
+    return [input[0], input.length];
+}
+const [Char, size] = findCharAndSize("Abdullah");
+console.log(findCharAndSize("Abdullah"));

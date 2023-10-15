@@ -987,3 +987,17 @@ function findCharAndSize(input: string){
 
 const [Char, size] = findCharAndSize("Abdullah") // Here we are doing array destructuring
 console.log(findCharAndSize("Abdullah"))
+
+
+function pickCard(x: {suit: string; card: number;}[]):number;
+function pickCard(x: number): {suit: string; card: number;};
+function pickCard(x): any{
+    if (typeof x == "object") {
+        var pickedCard = Math.floor(Math.random() * x.length);
+        return pickedCard;
+    }
+    else if (typeof x == "number"){
+        var pickedSuit = Math.floor(x / 13);
+        return {suit: suits[pickedSuit], card: x % 13}
+    }
+}

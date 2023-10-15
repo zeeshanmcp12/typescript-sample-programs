@@ -279,7 +279,7 @@ mathematician?.length // OK
 // Instead of writing types with pipe, we can create type and provide all types in there using Union
 
 // Type aliases is kind of copy-paste when using (and assigning) types to variables.
-// Type aliases are created using type keyword, a new name and =:
+// Type aliases are created using 'type' keyword, a new 'name' and '=':
 // Type aliases are given name PascalCase (by convention)
 
 type RawData = string | number | boolean | null | undefined;
@@ -785,7 +785,38 @@ function myNewFunc(getAnotherFunc) {
 function printMe(simpleText) {
     return simpleText;
 }
-myNewFunc(printMe);
+function funcNotReturnString(anyNumber) {
+    return anyNumber;
+}
+myNewFunc(printMe); // OK - No error because is main string return ho raha hai.
+// myNewFunc(funcNotReturnString) // Error: Argument of type `anyNumber: number => number` is not assignable to `(atext: string)=> string`
+// Error: Type is not compatible for both functions
+// Function Type Paranthesis
+// Function type kahin bhi place ki ja sakti hain, jahan koi dosri type use hoti hai. Is main Union types included hain.
+// Ham value Union type k sath bhi return kar sakte hain jese k: let myAnotherfunc: (text: string) => string | undefined
+// Unions types main paranthesis ka use is bat ko indicate karne k liye kiya ja sakta hai k annotation ka konsa part "Function Return" hai and konsa part surrounding types ka hai. For example
+let thisIsFuncType;
+// Is example main Union type main aik jaga hamne function type declare kardi and on second place hamne 'undefined' declare kardi. Means k is `thisIsFuncType` variable ki type function and undefined dono ho sakti hai.
+// Parameter Type Inferences
+// TypeScript main hame hamesha parameter ki type explicitly define karne ki zaroorat nahi hai. TypeScript main parameters ki type infer karne ki capability hai. Means k agar aik jaga apne parameter ki type 'string' define ki hai and then dosri jaga ap us variable ko use karenge tu TypeScript us parameter ki type wohi infer karlegi jo originally apne batayi thi.
+// Isi tarah wo functions jo ham dosre functions main 'as an argument' pass karte hain, unky parameters ki type bhi outer function k according infer ho jati hai.
+const songs = ["Hello", "This is hello", "This is bye"];
+songs.forEach((song, index) => {
+    console.log(`${song} is at ${index}`);
+});
+// is example main, ham songs (array) ka forEach method use kar rahe hain jo function (as argument) accept karta hai. Is example main arrow function use ho raha hai jis ko two parameters required hain, 'element' and the 'index' number. Yahan par hame in parameters ki type explicitly define karne ki zaroorat nahi pari kun k TypeScript ko malom hai k song 'array of string' hai and uska 'index' number hai.
+// Function Type Aliases
+// Jis tarah ham 'Union and Literals' main type aliases bana lete hain isi tarah functioni ki bhi bana sakte hain. For example:
+let thisFunc; // Regular "Function Type"
+let thisIsOnlyFunc; // Initialized Function with Type
+thisIsOnlyFunc = (audio) => {
+    return audio.toUpperCase();
+};
+console.log(thisIsOnlyFunc("Hello World"));
+function usesNumToString(usesNumToString) {
+    console.log(`This is usesNumToString that convert ${usesNumToString(1234)} to string!`);
+}
+usesNumToString((input) => `${input}! Horray!`);
 /* // any type
 let obj: any = {x:0};
 
